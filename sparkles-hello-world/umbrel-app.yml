@@ -1,5 +1,5 @@
 manifestVersion: 1
-id: tunarr
+id: kayninetech-tunarr
 name: Tunarr
 category: Media
 version: "latest"
