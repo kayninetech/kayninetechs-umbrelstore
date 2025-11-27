@@ -1,14 +1,26 @@
-version: "3.7"
-
+version: '3.8'
 services:
-
-  app_proxy:
+  tunarr:
+    image: chrisbenincasa/tunarr:latest
+    container_name: tunarr
+    ports:
+      - ${TUNARR_SERVER_PORT:-8000}:8000
+    # Uncomment if using the Nvidia container
+    # runtime: nvidia
     environment:
-      # The format here is: <app-id>_<docker-service-name>_1
-      APP_HOST: sparkles-hello-world_server_1
-      APP_PORT: 3000
-    
-  server:
-    image: getumbrel/community-app-store-hello-world:latest
-    user: "1000:1000"
-    init: true
+      - LOG_LEVEL=${TUNARR_LOG_LEVEL:-INFO}
+      # Replace this with your timezone to ensure accurate guide
+      # data and scheduling.
+      - TZ=America/New_York
+      # Uncomment if you'd like to adjust default config path
+      # - TUNARR_DATABASE_PATH=/your/path/tunarr
+    volumes:
+      # Choose a path on your host to map to /config/tunarr. This ensures
+      # that restarting the container will not delete your settings or DB.
+      - /path/to/tunarr/data:/config/tunarr
+    # The host path is relative to the location of the compose file
+    # This can also use an absolute path.
+    #
+    # Uncomment if migrating from dizquetv. Chnage the host path
+    # to the location of your dizquetv "database"
+    # - ./.dizquetv:/.dizquetv
